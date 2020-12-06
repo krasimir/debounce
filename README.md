@@ -6,14 +6,14 @@ Dart package for exactly what you are thinking about - debouncing a function cal
 void main() async {
   Debouncer d = Debouncer(time: Duration(milliseconds: 100));
 
-  Function func = d.debounce(() {
+  Function func = () {
     value += 1;
-  });
+  };
 
-  func();
-  func();
-  func();
-  func();
+  d.debounce(func);
+  d.debounce(func);
+  d.debounce(func);
+  d.debounce(func);
 
   await Future.delayed(Duration(milliseconds: 110));
 
@@ -27,13 +27,32 @@ The `Debouncer` class has an optional named parameter called `leading`. If you s
 void main() async {
   Debouncer d = Debouncer(time: Duration(milliseconds: 100, leading: true));
 
-  Function func = d.debounce(() {
+  Function func = () {
     value += 1;
-  });
+  };
 
-  func(); // at this point value is 1
-  func(); // nothing happens
-  func(); // nothing happens
-  func(); // nothing happens
+  d.debounce(func); // at this point value is 1
+  d.debounce(func); // nothing happens
+  d.debounce(func); // nothing happens
+  d.debounce(func); // nothing happens
 }
+```
+
+---
+
+This library exists to satisfy the need of debouncing callbacks passed to methods like `onPanUpdate`. For example:
+
+```dart
+Debouncer d = Debouncer(time: Duration(milliseconds: 300));
+...
+GestureDetector(
+  onPanUpdate: (details) {
+    d.debounce(() {
+      if (details.delta.dx > 0) {
+        print('left');
+      } else {
+        print('right');
+      }
+    });
+  },
 ```

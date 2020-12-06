@@ -4,14 +4,14 @@ int value = 0;
 
 void main() async {
   Debouncer d = Debouncer(time: Duration(milliseconds: 100));
-  Function func = d.debounce(() {
+  Function func = () {
     value += 1;
-  });
+  };
 
-  func();
-  func();
-  func();
-  func();
+  d.debounce(func);
+  d.debounce(func);
+  d.debounce(func);
+  d.debounce(func);
 
   // We wait a bit before checking the result. If we pass
   // `leading = true` in the constructor our function will be called

@@ -6,17 +6,17 @@ void main() {
     int incWith = 1;
     int value = 0;
     Debouncer d = Debouncer(time: Duration(milliseconds: 100));
-    Function f = d.debounce(() {
+    Function f = () {
       value += incWith;
-    });
+    };
 
-    f();
+    d.debounce(f);
     incWith = 2;
-    f();
+    d.debounce(f);
     incWith = 3;
-    f();
+    d.debounce(f);
     incWith = 4;
-    f();
+    d.debounce(f);
 
     await Future.delayed(Duration(milliseconds: 110));
 
@@ -25,19 +25,19 @@ void main() {
   test('should all a reuse of the same debouncer class', () async {
     int value = 0;
     Debouncer d = Debouncer(time: Duration(milliseconds: 50));
-    Function f = d.debounce(() {
+    Function f = () {
       value += 1;
-    });
+    };
 
-    f();
-    f();
-    f();
-    f();
+    d.debounce(f);
+    d.debounce(f);
+    d.debounce(f);
+    d.debounce(f);
     await Future.delayed(Duration(milliseconds: 60));
-    f();
-    f();
-    f();
-    f();
+    d.debounce(f);
+    d.debounce(f);
+    d.debounce(f);
+    d.debounce(f);
     await Future.delayed(Duration(milliseconds: 60));
 
     expect(value, 2);
@@ -45,20 +45,20 @@ void main() {
   test('should owner the leading flag', () async {
     int value = 0;
     Debouncer d = Debouncer(time: Duration(milliseconds: 50), leading: true);
-    Function f = d.debounce(() {
+    Function f = () {
       value += 1;
-    });
+    };
 
-    f();
-    f();
-    f();
-    f();
+    d.debounce(f);
+    d.debounce(f);
+    d.debounce(f);
+    d.debounce(f);
     expect(value, 1);
     await Future.delayed(Duration(milliseconds: 60));
-    f();
-    f();
-    f();
-    f();
+    d.debounce(f);
+    d.debounce(f);
+    d.debounce(f);
+    d.debounce(f);
     expect(value, 2);
     await Future.delayed(Duration(milliseconds: 60));
 

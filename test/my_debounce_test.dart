@@ -1,4 +1,4 @@
-import '../lib/debounce.dart';
+import '../lib/my_debounce.dart';
 import 'package:test/test.dart';
 
 void main() {

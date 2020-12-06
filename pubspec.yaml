@@ -1,4 +1,4 @@
-name: debounce
+name: my_debounce
 description: Exactly what you are thinking about - debouncing a function call
 version: 0.1.0
 homepage: https://github.com/krasimir/debounce
